@@ -18,6 +18,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/katalogs" element={<Katalogs />} />
+          <Route path="/produkts/:handle" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </TooltipProvider>
