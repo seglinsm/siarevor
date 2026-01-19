@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Wrench, Package, Clock, Award, Send, Loader2 } from "lucide-react";
+import { Wrench, Package, Clock, Award, Send, Loader2, Phone, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,6 +12,13 @@ const features = [
   { icon: Award, title: "Sertificēti meistari", desc: "Pieredzējuši speciālisti ar ražotāju apmācībām" },
 ];
 
+const mechanics = [
+  { name: "Guntis Pirkstiņš", phone: "+37129750037" },
+  { name: "Uldis Reķēns", phone: "+37129829699" },
+];
+
+const RECIPIENT_EMAIL = "revis@revis.lv";
+
 export function ServiceSection() {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ name: "", phone: "", message: "" });
@@ -19,6 +26,10 @@ export function ServiceSection() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    
+    // Simulate form submission - in production this would send to RECIPIENT_EMAIL
+    console.log("Form submitted to:", RECIPIENT_EMAIL, formData);
+    
     setTimeout(() => {
       setLoading(false);
       toast.success("Pieteikums nosūtīts!", { description: "Mēs ar Jums sazināsimies tuvākajā laikā." });
@@ -43,6 +54,31 @@ export function ServiceSection() {
               <p className="text-sm text-muted-foreground">{desc}</p>
             </div>
           ))}
+        </div>
+
+        {/* Mechanics Section */}
+        <div className="max-w-2xl mx-auto mb-12">
+          <h3 className="font-display text-xl font-semibold mb-6 text-center">Mūsu servisa mehāniķi</h3>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {mechanics.map(({ name, phone }) => (
+              <a
+                key={phone}
+                href={`tel:${phone.replace(/\s/g, "")}`}
+                className="flex items-center gap-4 bg-secondary/30 rounded-lg p-4 hover:bg-secondary/50 transition-colors"
+              >
+                <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
+                  <User className="w-5 h-5 text-primary" />
+                </div>
+                <div className="min-w-0">
+                  <p className="font-semibold truncate">{name}</p>
+                  <p className="text-sm text-muted-foreground flex items-center gap-1">
+                    <Phone className="w-3 h-3" />
+                    {phone}
+                  </p>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
 
         <div className="max-w-xl mx-auto bg-background rounded-lg p-6 shadow-card">
