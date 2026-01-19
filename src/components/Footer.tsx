@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 import { Phone, MapPin, Clock, Mail } from "lucide-react";
-
 export function Footer() {
-  return (
-    <footer className="bg-card border-t border-border">
+  return <footer className="bg-card border-t border-border">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
@@ -29,12 +27,7 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://maps.google.com/?q=Brīvības+iela+117A,+Liepāja" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-start gap-2 text-muted-foreground hover:text-foreground transition-colors"
-                >
+                <a href="https://maps.google.com/?q=Brīvības+iela+117A,+Liepāja" target="_blank" rel="noopener noreferrer" className="flex items-start gap-2 text-muted-foreground hover:text-foreground transition-colors">
                   <MapPin className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
                   Brīvības iela 117A, Liepāja, LV-3401
                 </a>
@@ -59,10 +52,11 @@ export function Footer() {
               <li className="pl-6">09:00 - 18:00</li>
               <li className="flex items-center gap-2 mt-2">
                 <Clock className="w-4 h-4 text-primary" />
-                <span>Sestdiena</span>
+                <span>Sestdiena - Slēgts
+              </span>
               </li>
-              <li className="pl-6">09:00 - 14:00</li>
-              <li className="pl-6 mt-2 text-muted-foreground/60">Svētdiena — Slēgts</li>
+              
+              <li className="pl-6 mt-2 text-inherit">Svētdiena — Slēgts</li>
             </ul>
           </div>
 
@@ -86,12 +80,7 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a 
-                  href="https://www.google.com/maps/place/Revor,+SIA" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
+                <a href="https://www.google.com/maps/place/Revor,+SIA" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
                   Google atsauksmes
                 </a>
               </li>
@@ -108,6 +97,5 @@ export function Footer() {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 }
