@@ -5,7 +5,7 @@ export function ContactSection() {
     <section id="kontakti" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <span className="text-primary font-medium text-sm uppercase tracking-wider">Kontakti</span>
+          <span className="text-primary-text font-medium text-sm uppercase tracking-wider">Kontakti</span>
           <h2 className="font-display text-3xl md:text-4xl font-bold mt-2 mb-4">Nāc ciemos vai zvani mums</h2>
         </div>
 

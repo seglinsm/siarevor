@@ -14,7 +14,7 @@ export function AboutSection() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
           <div>
-            <span className="text-primary font-medium text-sm uppercase tracking-wider">
+            <span className="text-primary-text font-medium text-sm uppercase tracking-wider">
               Par mums
             </span>
             <h2 className="font-display text-3xl md:text-4xl font-bold mt-2 mb-6">

@@ -41,7 +41,7 @@ export function ServiceSection() {
     <section id="serviss" className="py-20 bg-card">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <span className="text-primary font-medium text-sm uppercase tracking-wider">Serviss & Remonts</span>
+          <span className="text-primary-text font-medium text-sm uppercase tracking-wider">Serviss & Remonts</span>
           <h2 className="font-display text-3xl md:text-4xl font-bold mt-2 mb-4">Profesionāls tehnikas serviss no ekspertiem</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">Mūsu darbnīcā veicam visu veidu meža un dārza tehnikas remontu.</p>
         </div>
