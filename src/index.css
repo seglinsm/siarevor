@@ -13,6 +13,9 @@
     --revor-red-dark: 2 83% 42%;
     --revor-red-light: 2 70% 60%;
     
+    /* Accessible text variant - meets 4.5:1 contrast on dark backgrounds */
+    --primary-text: 2 85% 62%;
+    
     /* Dark Background Theme */
     --background: 0 0% 8%;
     --foreground: 0 0% 98%;
