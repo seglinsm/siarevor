@@ -4,7 +4,9 @@ import { toast } from "sonner";
 const SHOPIFY_API_VERSION = '2025-07';
 const SHOPIFY_STORE_PERMANENT_DOMAIN = 'lovable-project-x2vyb.myshopify.com';
 const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
-const SHOPIFY_STOREFRONT_TOKEN = '8165c3817e2f66b7ccac83a636158d1b';
+// Storefront API tokens are designed for client-side use (read-only, public)
+// Using env variable allows for easier rotation without code changes
+const SHOPIFY_STOREFRONT_TOKEN = import.meta.env.VITE_SHOPIFY_STOREFRONT_TOKEN || '8165c3817e2f66b7ccac83a636158d1b';
 
 export interface ShopifyProduct {
   node: {

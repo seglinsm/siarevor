@@ -4,6 +4,26 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { z } from "zod";
+
+// Form validation schema
+const serviceFormSchema = z.object({
+  name: z.string()
+    .trim()
+    .min(1, { message: "Vārds ir obligāts" })
+    .max(100, { message: "Vārds nedrīkst pārsniegt 100 rakstzīmes" }),
+  phone: z.string()
+    .trim()
+    .min(1, { message: "Telefona numurs ir obligāts" })
+    .max(20, { message: "Telefona numurs nedrīkst pārsniegt 20 rakstzīmes" })
+    .regex(/^[\d\s+\-()]+$/, { message: "Nepareizs telefona numura formāts" }),
+  message: z.string()
+    .trim()
+    .min(1, { message: "Ziņojums ir obligāts" })
+    .max(1000, { message: "Ziņojums nedrīkst pārsniegt 1000 rakstzīmes" }),
+});
+
+type ServiceFormData = z.infer<typeof serviceFormSchema>;
 
 const features = [
   { icon: Wrench, title: "Garantijas remonti", desc: "Oficiāli STIHL, Husqvarna un Stiga garantijas darbi" },
@@ -17,23 +37,50 @@ const mechanics = [
   { name: "Uldis Reķēns", phone: "+37129829699" },
 ];
 
-const RECIPIENT_EMAIL = "revis@revis.lv";
-
 export function ServiceSection() {
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({ name: "", phone: "", message: "" });
+  const [formData, setFormData] = useState<ServiceFormData>({ name: "", phone: "", message: "" });
+  const [errors, setErrors] = useState<Partial<Record<keyof ServiceFormData, string>>>({});
+
+  const validateForm = (): boolean => {
+    const result = serviceFormSchema.safeParse(formData);
+    if (!result.success) {
+      const fieldErrors: Partial<Record<keyof ServiceFormData, string>> = {};
+      result.error.errors.forEach((error) => {
+        const field = error.path[0] as keyof ServiceFormData;
+        if (!fieldErrors[field]) {
+          fieldErrors[field] = error.message;
+        }
+      });
+      setErrors(fieldErrors);
+      return false;
+    }
+    setErrors({});
+    return true;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateForm()) {
+      toast.error("Lūdzu aizpildiet visus laukus pareizi");
+      return;
+    }
+    
     setLoading(true);
     
-    // Simulate form submission - in production this would send to RECIPIENT_EMAIL
-    console.log("Form submitted to:", RECIPIENT_EMAIL, formData);
+    // TODO: Replace with actual Edge Function or backend API call when Cloud is connected
+    // The form data should be sent to a server-side endpoint that:
+    // 1. Validates and sanitizes input
+    // 2. Sends email to the configured recipient
+    // 3. Implements rate limiting
+    // Currently simulating successful submission for demo purposes
     
     setTimeout(() => {
       setLoading(false);
       toast.success("Pieteikums nosūtīts!", { description: "Mēs ar Jums sazināsimies tuvākajā laikā." });
       setFormData({ name: "", phone: "", message: "" });
+      setErrors({});
     }, 1000);
   };
 
@@ -83,10 +130,41 @@ export function ServiceSection() {
 
         <div className="max-w-xl mx-auto bg-background rounded-lg p-6 shadow-card">
           <h3 className="font-display text-xl font-semibold mb-4 text-center">Pieteikt remontu</h3>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Input placeholder="Jūsu vārds" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} required />
-            <Input placeholder="Telefona numurs" type="tel" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} required />
-            <Textarea placeholder="Aprakstiet problēmu..." value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} required />
+          <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+            <div>
+              <Input 
+                placeholder="Jūsu vārds" 
+                value={formData.name} 
+                onChange={e => setFormData({...formData, name: e.target.value})} 
+                maxLength={100}
+                className={errors.name ? "border-destructive" : ""}
+                aria-invalid={!!errors.name}
+              />
+              {errors.name && <p className="text-sm text-destructive mt-1">{errors.name}</p>}
+            </div>
+            <div>
+              <Input 
+                placeholder="Telefona numurs" 
+                type="tel" 
+                value={formData.phone} 
+                onChange={e => setFormData({...formData, phone: e.target.value})} 
+                maxLength={20}
+                className={errors.phone ? "border-destructive" : ""}
+                aria-invalid={!!errors.phone}
+              />
+              {errors.phone && <p className="text-sm text-destructive mt-1">{errors.phone}</p>}
+            </div>
+            <div>
+              <Textarea 
+                placeholder="Aprakstiet problēmu..." 
+                value={formData.message} 
+                onChange={e => setFormData({...formData, message: e.target.value})} 
+                maxLength={1000}
+                className={errors.message ? "border-destructive" : ""}
+                aria-invalid={!!errors.message}
+              />
+              {errors.message && <p className="text-sm text-destructive mt-1">{errors.message}</p>}
+            </div>
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
               Nosūtīt pieteikumu
